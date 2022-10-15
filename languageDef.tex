@@ -1,0 +1,18 @@
+
+\definecolor{prismgreen}{rgb}{0, 0.6, 0} 
+\lstdefinelanguage{Prism}{ % syntax highlight via font 
+        basicstyle= \ttfamily\footnotesize, % small true type font (like courier) 
+        breaklines=true,
+        keywords={bool,C,ceil,const,ctmc,double,dtmc,endinit,endmodule,endrewards,endsystem,F,false,
+        floor,formula,G,global,I,init,int,label,max,mdp,min,module,nondeterministic,P,Pmin,Pmax,prob,
+        probabilistic,R,rate,rewards,Rmin,Rmax,S,stochastic,system,true,U,X}, 
+        keywordstyle={\bfseries\color{blue}}, 
+        numberstyle=\tiny\color{black}, 
+        morecomment=[l]{//},
+        morecomment=[s]{/*}{*/},% single and multi-line 
+        commentstyle=\color{prismgreen}, % dark green 
+        tabsize=4, % tab treatment (going to be fixed in Prism) 
+        captionpos=b, % put captions at the bottom 
+        escapechar=@ % write LaTeX comments escaped by @ symbol 
+} 
+

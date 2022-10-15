@@ -1,0 +1,125 @@
+\begin{landscape}
+	\footnotesize
+\begin{longtable}{R{0.7cm}R{0.7cm}R{7.8cm}R{12.3cm}}
+	\caption[Formalised self-adaptation policies for the IT support system]{Formalised self-adaptation policies for the Ticket Support business process using the FACT analysis engine.  \label{tab:FormalPolicies}}\\
+	\hline
+	\multicolumn{2}{c}{\textbf{Policy}} & \textbf{Value} & \textbf{Description} \\
+	\endfirsthead
+	\multicolumn{4}{c}%
+	{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
+	\hline
+	\multicolumn{2}{c}{\textbf{Policy}} & \textbf{Value} & \textbf{Description} \\
+	\hline
+	\endhead
+	\hline \multicolumn{4}{r}{\textit{Continued on next page}} \\
+	\endfoot
+	\hline
+	\endlastfoot
+	\toprule
+	\rowcolor{Gray} $\textbf{P1}$  & $\mathit{filter}$ & $\begin{array}{l}
+	\bigl\{(T_\mathit{test},T_\mathit{ref})\in \mathbb{P}\mathcal{L}\!\times\! \mathbb{P}\mathcal{L} \mid
+	\exists u\!\in\! \mathit{Client}\: \bullet\\
+	\quad \bigl(T_\mathit{test} = \{ (\mathit{id},\langle e_1, e_2, \ldots e_N \rangle)\!\in\! \mathcal{L} \mid \\
+	\quad \exists 1\leq j\leq N \bullet e_j.\mathit{user}=u\} \: \wedge\; T_\mathit{ref} = \mathcal{L}\setminus T_\mathit{test}\bigr)\bigr\}
+	\end{array}$ & Partition the complete trace set to compare a single client user with other users;\\ 
+	& $\mathcal{P}^a$ & $(\mathcal{R}_{=?}^\mathrm{reopened}[ \mathrm{F}\; \mathsf{End}], \alpha)$ & Evaluate the ``reopened" reward with a confidence level; $(1-\alpha$)\\
+	\rowcolor{Gray} & $\mathit{CP}$ & $(>)$ & Compare the results to see if client reopens tickets more often than normal; \\
+	& $\mathit{CR}$ & $\forall u \in U^{T} \bullet perm'(u) = perm(u)\backslash \{\mathsf{Open}\}$ & If so then remove the ability to open new tickets. \\ \hline
+	
+	\rowcolor{Gray} \textbf{P2.1} &$\mathit{filter}$ & $\begin{array}{l}
+	\bigl\{(T_\mathit{test},T_\mathit{ref})\in \mathbb{P}\mathcal{L}\!\times\! \mathbb{P}\mathcal{L} \mid
+	\exists u\!\in\! \mathit{Support}\: \bullet \\
+	\quad \bigl(T_\mathit{test} = \{ (\mathit{id},\langle e_1, e_2, \ldots e_N \rangle)\!\in\! \mathcal{L} \mid \\
+	\quad \exists 1\leq j\leq N \bullet e_j.\mathit{user}=u\} \: \wedge  T_\mathit{ref} = \mathcal{L}\setminus T_\mathit{test}\bigr)\bigr\}
+	\end{array}$ & Partition the complete trace set to compare a single support attendant with other attendants;\\
+	& $\mathcal{P}^a$ & $(\mathcal{R}_{=?}^\mathrm{suspended}[ \mathrm{F}\; \mathsf{End}], \alpha)$ & Evaluate the ``suspended" reward at a confidence level of $(1 - \alpha)$; \\
+	\rowcolor{Gray} & $\mathit{CP}$ &  $(>)$ & Compare the results to see if a support user is more likely to suspend tickets;\\
+	& $\mathit{CR}$ & $ \forall u \in U^{T} \bullet \mathit{perm}'(u)\!=\! (\mathit{perm}(u) \!\setminus\! \{\mathsf{Suspend}\})\;\cup\;\{\mathsf{SuspendWithApproval}\}$ & If so then suspension should require approval.\\ \hline
+	
+	
+	\rowcolor{Gray} \textbf{P2.2} & $\mathit{filter}$ & $\begin{array}{l}
+	\bigl\{(T_\mathit{test},T_\mathit{ref})\in \mathbb{P}\mathcal{L}\!\times\! \mathbb{P}\mathcal{L} \mid
+	\exists u^c\!\in\! \mathit{Client} \wedge \exists u^s\!\in\! U^T\: \bullet\\
+	\quad \bigl(T_\mathit{test} = \{ (\mathit{id},\langle e_1, e_2, \ldots e_N \rangle)\!\in\! \mathcal{L}\} \mid \exists 1\leq j\leq N \bullet \\
+	\quad e_j.\mathit{user}=u^c \wedge\; \exists 1\leq k\leq N \bullet e_k.\mathit{user}=u^s\} \: \wedge \\
+	\quad \;  T_\mathit{ref} = \mathcal{L}\setminus T_\mathit{test} \bigr)\bigr\}
+	\end{array}$ & Partition the log to examine those clients identified in \textbf{P2.1}. For each client the test set is those traces which involve the identified support attendant and the reference set is all other users; \\
+	& $\mathcal{P}^a$ & $(\mathcal{R}_{=?}^\mathrm{suspended}[ \mathrm{F}\; \mathsf{End}], \alpha)$ &  Evaluate the ``suspended" reward at a confidence level of $(1 - \alpha)$;\\
+	\rowcolor{Gray} & $\mathit{CP}$ & $(<)$ & Compare the results to see if the client is less likely to be suspended if serviced by other support attendants;  \\
+	& $\mathit{CR}$ &  $\forall u^c \in U^{T} \bullet perm'(u^c) =  \emptyset$ & If so then remove all access permissions from the user.\\ \hline
+
+
+	\rowcolor{Gray} \textbf{P3} & $\mathit{filter}$ & $\begin{array}{l}
+	\bigl\{(T_\mathit{test},T_\mathit{ref})\in \mathbb{P}\mathcal{L}\!\times\! \mathbb{P}\mathcal{L} \mid
+	\exists u\!\in\! \mathit{Support}\: \bullet \\
+	\quad \bigl(T_\mathit{test} = \{ (\mathit{id},\langle e_1, e_2, \ldots e_N \rangle)\!\in\! \mathcal{L} \mid \\
+	\quad \exists 1\leq j\leq N \bullet e_j.\mathit{user}=u\} \: \wedge  T_\mathit{ref} = \mathcal{L}\setminus T_\mathit{test}\bigr)\bigr\}
+	\end{array}$ & Partition the trace data to compare a single support attendants to all other attendants;\\
+	& $\mathcal{P}^a$ & $(\mathcal{P}_{=?} [\neg\mathsf{Suspended}\; \mathrm{U} \;\mathsf{Cancelled}], \alpha)$ & Evaluate the probability of cancelling a ticket without first suspending it; \\
+	\rowcolor{Gray} & $\mathit{CP}$ & $(>)$  & Compare the results to see if the support attendant does this more often than normal;\\
+	& $\mathit{CR}$ & $\forall u \in U^{T} \bullet \mathit{perm}'(u)\!=\! (\mathit{perm}(u) \!\setminus\! \{\mathsf{Cancel}\})\;\cup\{\mathsf{CancelWithApproval}\}$ & If so  then they require approval to cancel tickets.\\ \hline
+
+	\rowcolor{Gray} \textbf{P4} & $\mathit{filter}$ & $\begin{array}{l}
+	\bigl\{(T_\mathit{test},T_\mathit{ref})\in \mathbb{P}\mathcal{L}\!\times\! \mathbb{P}\mathcal{L} \mid
+	\exists u\!\in\! \mathit{Support}\: \bullet \\
+	\quad \bigl(T_\mathit{test} = \{ (\mathit{id},\langle e_1, e_2, \ldots e_N \rangle)\!\in\! \mathcal{L} \mid \\
+	\quad \exists 1\leq j\leq N \bullet e_j.\mathit{user}=u\} \: \wedge  T_\mathit{ref} = \mathcal{L}\setminus T_\mathit{test}\bigr)\bigr\}
+	\end{array}$ & Partition the trace data to compare a single support attendants to all other attendants; \\
+	& $\mathcal{P}^a$ & $(\mathcal{P}_{=?} [\neg\mathsf{Opened}\; \mathrm{U}\;\mathsf{Abandoned}], \alpha)$ & Evaluate the probability of abandoning tickets that have been opened on behalf of other users at a confidence level of $(1- \alpha)$;\\
+	\rowcolor{Gray} & $\mathit{CP}$ & $(>)$ & Compare the results to see if the support user does this more often than normal;\\
+	& $\mathit{CR}$ & $\forall u \in U^{T} \bullet \mathit{perm}'(u)\!=\! \mathit{perm}(u) \setminus \{\mathsf{OpenOnBehalf}\}$ & If so then remove their ability to open tickets on behalf of other users.\\ \hline
+
+
+	\rowcolor{Gray} \textbf{P5.1} & $\mathit{filter}$ & $\begin{array}{l}
+	\bigl\{(T_\mathit{test},T_\mathit{ref})\in \mathbb{P}\mathcal{L}\!\times\! \mathbb{P}\mathcal{L} \mid
+	\exists u\!\in\! \mathit{Suport}\: \bullet \\
+	\quad \bigl(T_\mathit{test} = \{ (\mathit{id},\langle e_1, e_2, \ldots e_N \rangle)\!\in\! \mathcal{L} \mid \\
+	\quad \exists 1\leq j\leq N \bullet e_j.\mathit{user}=u\} \: \wedge  T_\mathit{ref} = \mathcal{L}\setminus T_\mathit{test}\bigr)\bigr\}
+	\end{array}$ & Partition the trace data to compare a single support attendants to all other attendants;\\
+	& $\mathcal{P}^a$ & $(\mathcal{R}_{=?}^\mathrm{lazy} [\mathrm{F}\; \mathsf{End}], \alpha_1)$ & Evaluate the reward associated with ``Lazy" support attendants at a confidence level of $(1 - \alpha_1)$;\\
+	\rowcolor{Gray} & $\mathit{CP}$ & $(>)$  & Compare the reward for this support attendant with all other attendants; \\
+	& $\mathit{CR}$ & $\forall u \in U^{T} \bullet \mathit{perm}'(u)\!=\! (\mathit{perm}(u) \setminus \{\mathsf{Check}, \mathsf{Solve}, \mathsf{Suspend}\}) \cup \{\mathsf{MonitoredCheck}, \mathsf{MonitoredSolve}, \mathsf{MonitoredSuspend}\}$ & If they are found to be ``Lazy" then monitor their activity.\\ \hline
+	
+	\rowcolor{Gray} \textbf{P5.2} & $\mathit{filter}$ & $\begin{array}{l}
+	\bigl\{(T_\mathit{test},T_\mathit{ref})\in \mathbb{P}\mathcal{L}\!\times\! \mathbb{P}\mathcal{L} \mid
+	\exists u\!\in\! U^T\: \bullet\\
+	\quad  \bigl(T_\mathit{test} = \{ (\mathit{id},\langle e_1, e_2, \ldots e_N \rangle)\!\in\! \mathcal{L} \mid\\
+	\quad \exists 1\leq j\leq N \bullet e_j.\mathit{user}=u\} \: \wedge  T_\mathit{ref} = \mathcal{L}\setminus T_\mathit{test}\bigr)\bigr\}
+	\end{array}$ & Partition the log to examine the traces of support attendants found in \textbf{P5.1};\\
+	& $\mathcal{P}^a$ & $(\mathcal{R}_{=?}^\mathrm{lazy} [\mathrm{F}\; \mathsf{End}], \alpha_2)$ &  Evaluate the reward associated with ``Lazy" support attendants at a confidence level of $(1 - \alpha_2)$ where $(1-\alpha_2) > (1 - \alpha_1)$ ;\\
+	\rowcolor{Gray} & $\mathit{CP}$ & $(>)$ & Compare the reward for this support attendant with all others;\\
+	& $\mathit{CR}$ & $\begin{array}{l}
+	\forall u \in U^{T} \bullet \mathit{perm}'(u)\!=\! (\mathit{perm}(u) \\ 
+	\quad \setminus \{\mathsf{Check}, \mathsf{Solve}, \mathsf{Suspend}\}) \cup 
+	 \{\mathsf{CheckWithApproval}, \\
+	 \quad \mathsf{SolveWithApproval}, \mathsf{SuspendWithApproval}\} 
+	 \end{array}$& If they are found to be ``Lazy" then their activity requires approval.\\ \hline		
+	
+	\rowcolor{Gray} \textbf{P6.1} & $\mathit{filter}$ & $\begin{array}{l}
+	\bigl\{(T_\mathit{test},T_\mathit{ref})\in \mathbb{P}\mathcal{L}\!\times\! \mathbb{P}\mathcal{L} \mid
+	\exists u\!\in\! \mathit{Client}\: \bullet \\
+	\quad \bigl(T_\mathit{test} = \{ (\mathit{id},\langle e_1, e_2, \ldots e_N \rangle)\!\in\! \mathcal{L} \mid\\
+	\quad \exists 1\leq j\leq N \bullet e_j.\mathit{user}=u\} \: \wedge  T_\mathit{ref} = \mathcal{L}\setminus T_\mathit{test}\bigr)\bigr\}
+	\end{array}$ & Partition the trace data to compare a single client user to all other clients;\\
+	& $\mathcal{P}^a$ & $(\mathcal{R}_{=?}^\mathrm{expensive}[ \mathrm{F}\; \mathsf{End}], \alpha)$ & Evaluate the reward associated with ``Expensive" tickets at a confidence level of $(1 - \alpha)$;\\
+	\rowcolor{Gray} & $\mathit{CP}$ & $(>)$ & Compare the results to see if the client is more ``expensive" than normal;\\
+	& $\mathit{CR}$ & $\begin{array}{l}
+	\forall u \in U^{T} \bullet \mathit{perm}'(u) = (\mathit{perm}(u) \\
+	\quad \setminus \{\mathsf{Open},  \mathsf{Reopen},\! \mathsf{AddInformation}\!\}\!) \;\cup\; \\
+	\quad \{\mathsf{MonitoredOpen}, \mathsf{MonitoredReopen}, \\
+	\quad \mathsf{MonitoredAddInformation}\!\}
+	\end{array}$ & If so then monitor the client.\\ \hline
+	
+	\rowcolor{Gray} \textbf{P6.2} & $\mathit{filter}$ & $\begin{array}{l}
+	\bigl\{(T_\mathit{test},T_\mathit{ref})\in \mathbb{P}\mathcal{L}\!\times\! \mathbb{P}\mathcal{L} \mid
+	\exists u^c\!\in\! U^T \wedge \exists u^s\!\in\! \mathit{Support}\: \bullet\\
+	\quad \bigl(T_\mathit{test} = \{ (\mathit{id},\langle e_1, e_2, \ldots e_N \rangle)\!\in\! \mathcal{L}\} \mid \exists 1\leq j\leq N \bullet\\
+	\quad e_j.\mathit{user}=u^c \wedge\; \exists 1\leq k\leq N \bullet e_k.\mathit{user}=u^s\} \\
+	\quad \: \wedge \; T_\mathit{ref} = \mathcal{L}\setminus T_\mathit{test}\bigr)\bigr\}
+	\end{array}$ & Partition the log to examine those support attendants who dealt with the clients identified in \textbf{P6.1};\\
+	& $\mathcal{P}^a$ & $(\mathcal{R}_{=?}^\mathrm{expensive}[ \mathrm{F}\; \mathsf{End}], \alpha)$ & Evaluate the reward associated with ``Expensive" tickets at a confidence level of $(1 - \alpha)$;\\
+	& $\mathit{CP}$ & $(<)$ & Check to see if tickets processed by this support attendant is less ``expensive" than those for other attendants;\\
+	& $\mathit{CR}$ & $\forall u \in U^{T} \bullet \mathit{perm}'(u^c)\!=\! \mathit{perm}(u^c) \setminus \{\mathsf{Open}\}$ & If so then the client should have their ability to open new tickets removed.\\ 
+	
+\end{longtable}
+\end{landscape}

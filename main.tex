@@ -1,0 +1,277 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[pdftex]{graphicx}
+\usepackage{color, colortbl}
+\usepackage{listings}
+
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{booktabs}
+
+\usepackage{subcaption}
+
+\usepackage{multirow}
+
+\usepackage{lscape}
+\usepackage{longtable}
+
+\usepackage{pgf}
+
+\newcolumntype{R}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\definecolor{Gray}{gray}{0.9}
+
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+
+\newcommand{\revised}[1]{\textcolor{blue}{#1}}
+
+\newcommand{\acronym}{OMNI}
+
+\input{exampledef.tex}
+
+\title{Some examples of tricky stuff in Latex}
+\author{Colin Paterson }
+
+\input{languageDef.tex}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+In this document I give examples of some tricky stuff that can be done in Latex that I often find myself searhing for. Note that this document is meant to be read with access to the source code.
+
+
+\section{Maths equations}
+
+This first equation requires that you have includes amsmath. Note the use f mathcal for the ``curly'' F ($\mathcal{F}$) and the use of $\backslash$\textsf{mathit} for words in maths equations.
+\begin{equation}
+\mathcal{F}^c((R^u_\mathit{test}, R^u_\mathit{ref}), (>)) = \begin{cases}
+ {u} & \text{if}~ R^u_\mathit{test}>R^u_\mathit{ref}\\
+  \emptyset & otherwise
+\end{cases}
+\end{equation}
+
+
+Here is an example of an equation that spreads mutliple lines, note this particular example requires the amssymb package:
+
+\begin{equation}
+\begin{array}{l}
+\mathit{scope}(\mathcal{L}) = \bigl\{(T_\mathit{test},T_\mathit{ref})\in \mathbb{P}\mathcal{L}\!\times\! \mathbb{P}\mathcal{L} \mid
+\exists u\!\in\! \mathit{Client}\: \bullet\\
+\qquad\qquad\qquad\quad \bigl(T_\mathit{test} = \{ (\mathit{id},\langle e_1, e_2, \ldots e_N \rangle)\!\in\! \mathcal{L} \mid \exists 1\leq j\leq N \bullet e_j.\mathit{user}=u\} \: \wedge \\
+\qquad\qquad\qquad\qquad\qquad\quad T_\mathit{ref} = \mathcal{L}\setminus T_\mathit{test}\bigr)\bigr\}
+\end{array}
+\end{equation}
+
+Next we consider multi-part equations, with each equation given the same number but a different suffix. I also show how we can make use of a new command to have vectors shown as bold. Here we include the followign command in the header. This also shows how to include code verbatim in a document, i.e. without formatting.
+
+\begin{verbatim}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\end{verbatim}
+
+\begin{subequations}
+\begin{align}
+\vect{Y} &= \mathcal{M}(\vect{X}) \label{eqn:haze1} \\ \displaybreak[3]
+0 &\leq \epsilon \leq p \label{eqn:haze2}\\ \displaybreak[3]
+\bigwedge_{i\leq |\vect{X}|} \big( \vect{x_i} &= (1-\epsilon) x_i + \epsilon~C^f \big) \label{eqn:haze3} \\ \displaybreak[3]
+\bigvee_{\substack{i<=|\vect{Y}| \\ \vect{y_i} \neq \vect{y_{real}}}} \vect{y_i} & \geq \vect{y_{real}} \label{eqn:haze4}
+\end{align}
+\label{eqn:haze}
+\end{subequations}
+
+\section{Some useful commands}
+Sometimes it is useful to create your own commands.
+
+A common use is to want to change the colour of text to indicate it is a revision, e.g. when  responsing to journal feedback. Here you can create a command as
+
+\begin{verbatim}
+\newcommand{\revised}[1]{\textcolor{blue}{#1}}
+\end{verbatim}
+
+and then simple \revised{change the colour by } supporting it with the new command. In this way you can later change one line and update all the colour, or search for all revisions.
+
+Similarly you may want to use a name for the 'tool' or method you are presenting in your work, but you are unsure if you might change it later. If you create a new command like
+
+\begin{verbatim}
+    \newcommand{\acronym}{OMNI}
+\end{verbatim}
+
+Then you can include the tool name \acronym~ in your text knowing that you may change it at any time.
+
+
+\section{Boxed environments}
+Occasionally you might like to include a set of examples or similar in your text. I show how we can do this in the included file \textsf{exampledef.tex}. I then include this defintion in the head of the Latex document.
+
+\begin{example}	This is the first example. But nore that I am note hard coding a number meaning that if I move this to elsewhere in the document the numbering will update. \end{example}
+
+\begin{example}	When I add this second example the number is incremented automatically. \end{example}
+
+
+\section{Figures and subfigures}
+
+Figure~\ref{fig:CI-WebApplication} is a nice grid of equally sized graphs which makes use of the subcaption package.
+
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.4\textwidth}
+		\includegraphics[width=\linewidth]{images/temp.pdf}
+	\end{subfigure}
+	\begin{subfigure}{0.4\textwidth}
+		\includegraphics[width=\linewidth]{images/P2-WebApplication.pdf}
+	\end{subfigure}
+	\begin{subfigure}{0.4\textwidth}
+		\includegraphics[width=\linewidth]{images/R1-WebApplication.pdf}
+	\end{subfigure}
+	\begin{subfigure}{0.4\textwidth}
+		\includegraphics[width=\linewidth]{images/R2-WebApplication.pdf}
+	\end{subfigure}
+\caption{Confidence intervals for HTTP request process\label{fig:CI-WebApplication}}
+\end{figure}
+
+
+Sometimes we want to output graphs from python that have the correct fonts etc. for latex. I have uploaded three graphs generated in python called \textsf{test.png}, \textsf{test.pdf} and \textsf{test.pgf}. They are shown in Figures~\ref{fig:png},~\ref{fig:png},~\ref{fig:pgf}. Note that in the third figure I have deliberately increased the font size to demonstrate that this is the Latex font. I have also included maths in the title using standard Latex. Note that you have to start playing with margins and padding to get these perfect.
+
+I have included the python code used to generate these graphs at the end of the document in Listing~\ref{lst:PythonCode}.
+
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.4\textwidth}
+		\includegraphics[width=\linewidth]{images/test.png}
+        \caption{PNG image}
+	\end{subfigure}
+	\begin{subfigure}{0.4\textwidth}
+		\includegraphics[width=\linewidth]{images/test.pdf}
+        \caption{PDF image}
+	\end{subfigure}
+	\begin{subfigure}{0.4\textwidth}
+		\resizebox{\textwidth}{!}{\input{images/test.pgf}}
+          \caption{PGF image}
+	\end{subfigure}
+\caption{Images exported from Python}
+\end{figure}
+
+\section{Tables}
+
+In Table~\ref{tab:results_supports} I show how to span columns, span rows, how to add highlighting to cells and use alternative fonts for tables as sometime we want a smaller font in tables to save space. Note the booktabs package is needed for toprule, miodrule and bottomrule
+\begin{table}
+	\sffamily
+	\centering
+	\caption[Results obtained for the policies targeting the $Support$ role]{Results obtained for the policies targeting the $Support$ role. Highlighted cells indicate those users that we wish to trigger the policy.} 
+	\label{tab:results_supports}
+	\begin{small}
+		\begin{tabular}{ccccccc} \toprule
+			
+			\hspace*{-2mm}User type & User ID&P2 &P3 &P4  &\multicolumn{2}{c}{P5}   \\ 
+			\hline
+			& \hspace*{-2mm}201701	&0	&0	&0	&\cellcolor{yellow}0.95	&0.95 \\ 
+			& \hspace*{-2mm}201702	&0.75	&0	&0.8	&\cellcolor{yellow}0.99	&\cellcolor{yellow}0.99\\ 
+			\hspace*{-2mm}famous  & \hspace*{-2mm}201703	&\cellcolor{yellow}0.85	&0	&0	&\cellcolor{yellow}0.99	&\cellcolor{yellow}0.99\\ 
+			& \hspace*{-2mm}201704	&0.75	&0	&0.8	&\cellcolor{yellow}0.99	&\cellcolor{yellow}0.99\\ 
+			& \hspace*{-2mm}201705	&0.75	&0	&0	&\cellcolor{yellow}0.99	&\cellcolor{yellow}0.99\\ \midrule
+			\hspace*{-2mm}most& \hspace*{-2mm}201706	&0	&0	&\cellcolor{yellow}0.85	&\cellcolor{yellow}0.99	&\cellcolor{yellow}0.99\\ 
+			\hspace*{-2mm}active& \hspace*{-2mm}201707	&0	&0	&\cellcolor{yellow}0.85	&0	&0\\ 
+			& \hspace*{-2mm}201708	&\cellcolor{yellow}0.8	&0	&0	&\cellcolor{yellow}0.99	&\cellcolor{yellow}0.99\\  \bottomrule
+
+		\end{tabular}
+	\end{small}
+	
+	\vspace*{-4mm}
+\end{table}
+
+Table~\ref{tab:Context} shows how we can put two tables side by side using subtables and requires the multirow package.
+
+
+\begin{table}
+  \centering
+    \caption{German Speed Sign Classification: Data and Models\label{tab:Context}}
+    
+    \vspace*{-2mm}
+    \begin{scriptsize}
+    \begin{subtable}{.5\linewidth}
+      \centering
+        \caption{Data Sets\label{tab:cs1Data}}
+    \sffamily
+    \begin{tabular}{cccc}
+    \toprule
+         Class & Description & \# Train &\# Test  \\ \midrule
+         0 & 30 km/h & 1980 & 720\\
+         1 & 50 km/h & 2010 & 750\\
+         2 & 60 km/h & 1260 & 450\\
+         3 & 70 km/h & 1770 & 660\\
+         4 & 80 km/h & 1650 & 630\\
+         5 & 100 km/h & 1290 & 450\\
+         6 & 120 km/h & 1260 & 450\\ \bottomrule
+    \end{tabular}
+    \end{subtable}%
+    \begin{subtable}{.5\linewidth}
+      \centering
+        \caption{Models\label{tab:cs1Models}}
+    \begin{tabular}{clc}
+        \toprule
+         Model &  Description & Accuracy\\ \midrule
+         1A & \multirow{2}{*}{Small ReLu only model}  & 0.816\\ 
+         1B &  & 0.847\\ \midrule
+         2A & \multirow{2}{*}{Large ReLu only model}& 0.868\\ 
+         2B && 0.866\\ \midrule
+         3A & \multirow{2}{*}{CNN Model} & 0.988\\ 
+         3B &  & 0.984\\ 
+         \bottomrule
+    \end{tabular}
+    \end{subtable} 
+    \end{scriptsize}
+    
+    \vspace*{-4mm}
+\end{table}
+
+Sometimes tables become enormous and in those cases you might want to you landscape and the longtable packages included as :
+\begin{verbatim}
+    \usepackage{lscape}
+    \usepackage{longtable}
+\end{verbatim}
+
+I would suggest putting such tables in their own file and then including them. I did this with the \textsf{hugetable.tex} file. I then include it as
+
+\begin{verbatim}
+    \input{hugetable.tex}  
+\end{verbatim}
+\input{hugetable.tex}
+
+In this table I have a custom column type which can have a width set and is 'ragged right'. I also define a row background colour. Both of these are defined in the document header as:
+\begin{verbatim}
+    \newcolumntype{R}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+    \definecolor{Gray}{gray}{0.9}
+\end{verbatim}
+
+\section{Language snippets}
+In order to support unusual languages I tend to use the listings package by including  $\backslash$\{\textsf{listings}\} and a \textsf{langaugeDef.tex} file which I include in the main file header. The language definition included with this file includes some keyword formatting for PRISM. I then include the program as a file in the overleaf project and in include it as shown in the snippet below. Note that the minipage is optional. 
+
+\begin{minipage}{\textwidth}
+\lstinputlisting[language=Prism, caption={FACT model for a web application}, label={lst:webApplication}]{program.pm}
+\end{minipage}
+
+\begin{minipage}{\textwidth}
+\lstinputlisting[language=Python,
+    basicstyle=\sffamily\footnotesize,
+    keywordstyle=\textbf, 
+    commentstyle=\color{blue},
+    showstringspaces=false,
+    frame=tb, 
+    numbers=left, 
+    caption={Python file to gerenate PGF graphs}, 
+    label={lst:PythonCode}]{Python.py}
+\end{minipage}
+
+
+
+
+
+
+
+\end{document}
