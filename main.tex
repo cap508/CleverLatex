@@ -134,7 +134,7 @@ Figure~\ref{fig:CI-WebApplication} is a nice grid of equally sized graphs which 
 \end{figure}
 
 
-Sometimes we want to output graphs from python that have the correct fonts etc. for latex. I have uploaded three graphs generated in python called \textsf{test.png}, \textsf{test.pdf} and \textsf{test.pgf}. They are shown in Figures~\ref{fig:png},~\ref{fig:png},~\ref{fig:pgf}. Note that in the third figure I have deliberately increased the font size to demonstrate that this is the Latex font. I have also included maths in the title using standard Latex. Note that you have to start playing with margins and padding to get these perfect.
+Sometimes we want to output graphs from python that have the correct fonts etc. for latex. I have uploaded three graphs generated in python called \textsf{test.png}, \textsf{test.pdf} and \textsf{test.pgf}. They are shown in Figures~\ref{fig:png},~\ref{fig:pdf},~\ref{fig:pgf}. Note that in the third figure I have deliberately increased the font size to demonstrate that this is the Latex font. I have also included maths in the title using standard Latex. Note that you have to start playing with margins and padding to get these perfect.
 
 I have included the python code used to generate these graphs at the end of the document in Listing~\ref{lst:PythonCode}.
 
@@ -143,15 +143,15 @@ I have included the python code used to generate these graphs at the end of the 
 	\centering
 	\begin{subfigure}{0.4\textwidth}
 		\includegraphics[width=\linewidth]{images/test.png}
-        \caption{PNG image}
+        \caption{PNG image\label{fig:png}}
 	\end{subfigure}
 	\begin{subfigure}{0.4\textwidth}
 		\includegraphics[width=\linewidth]{images/test.pdf}
-        \caption{PDF image}
+        \caption{PDF image\label{fig:pdf}}
 	\end{subfigure}
 	\begin{subfigure}{0.4\textwidth}
 		\resizebox{\textwidth}{!}{\input{images/test.pgf}}
-          \caption{PGF image}
+          \caption{PGF image\label{fig:pgf}}
 	\end{subfigure}
 \caption{Images exported from Python}
 \end{figure}
